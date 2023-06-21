@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Notes</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .note {
+            margin-bottom: 20px;
+            padding: 10px;
+            background-color: #f1f1f1;
+            border-radius: 5px;
+        }
+
+        .note .user {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .note .content {
+            margin-bottom: 10px;
+        }
+        .note .file {
+            margin-bottom: 10px;
+        }
+
+        .share-button {
+            margin-top: 10px;
+        }
+
+        .user-list {
+            display: none;
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #f1f1f1;
+            border-radius: 5px;
+        }
+
+        .user-list .user-item {
+            margin-bottom: 5px;
+            cursor: pointer;
+        }
+
+        .send-button {
+            padding: 5px 10px;
+            font-size: 12px;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            float: right;
+        }
+
+        .send-button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Notes</h2>
+        {% for note in all_notes %}
+        <div class="note">
+            <div class="user">Posted by: {{ note.name }}</div>
+            <div class="content">{{ note.content }}</div>
+            <div class="file">{{ note.note_file }}</div>
+            <button class="share-button" onclick="showUserList({{ note.id }})">Share</button>
+            <div id="user-list-{{ note.id }}" class="user-list"></div>
+        </div>
+        {% empty %}
+        <p>No notes found.</p>
+        {% endfor %}
+    </div>
+
+    <script>
+        var selectedUsers = {}; // Object to store selected users
+
+        function showUserList(noteId) {
+            var userList = document.getElementById('user-list-' + noteId);
+            if (userList.style.display === 'none') {
+                // Fetch and display the list of registered users
+                fetch('/get_users/')
+                    .then(response => response.json())
+                    .then(data => {
+                        var userListHTML = '';
+                        data.users.forEach(user => {
+                            userListHTML += '<div class="user-item" onclick="toggleUserSelection(this, ' + user.id + ')">' + user.name + '<button class="send-button" onclick="sendNote(' + noteId + ', ' + user.id + ')">Send</button></div>';
+                        });
+                        userList.innerHTML = userListHTML;
+                        userList.style.display = 'block';
+                    });
+            } else {
+                userList.style.display = 'none';
+            }
+        }
+
+        function toggleUserSelection(userItem, userId) {
+            if (selectedUsers[userId]) {
+                // User was previously selected, deselect it
+                userItem.classList.remove('selected');
+                delete selectedUsers[userId];
+            } else {
+                // User was not selected, select it
+                userItem.classList.add('selected');
+                selectedUsers[userId] = true;
+            }
+        }
+
+        function sendNote(noteId, userId) {
+            // Perform the necessary actions to send the note to the selected user
+            console.log('Send note:', 'Note ID:', noteId, 'User ID:', userId);
+        }
+    </script>
+</body>
+</html>

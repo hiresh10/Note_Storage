@@ -1,0 +1,63 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My App</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .navbar {
+            background-color: #f1f1f1;
+            overflow: hidden;
+        }
+
+        .navbar a {
+            float: left;
+            display: block;
+            color: #333;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+            font-size: 17px;
+        }
+
+        .navbar a:hover {
+            background-color: #ddd;
+        }
+
+        .navbar .active {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .navbar .user-profile {
+            float: right;
+            display: block;
+            padding: 14px 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <a href="{% url 'home' %}" class="active">Home</a>
+        <a href="{% url 'notes' %}">Notes</a>
+        <a href="{% url 'postpage' %}">Add Note</a>
+        <a href="{% url 'profile' %}" class="user-profile">
+            <img src="{% static 'image/user.png' %}" alt="Profile Icon" width="20" height="20">
+            {{ request.session.name }}
+        </a>
+    </div>
+
+    <div>
+        {% if msg %}
+        <h1 style="color green;">{{ msg }}</h1>
+        {% endif %}
+        <!-- Rest of the page content goes here -->
+    </div>
+</body>
+</html>

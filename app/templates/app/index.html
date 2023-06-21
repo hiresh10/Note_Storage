@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Website</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .navbar {
+            background-color: #333;
+            color: #fff;
+            display: flex;
+            justify-content: flex-start;
+        }
+        
+        .navbar ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+        
+        .navbar li {
+            padding: 10px 20px;
+        }
+        
+        .navbar li a {
+            color: #fff;
+            text-decoration: none;
+        }
+        
+        .navbar li a:hover {
+            text-decoration: underline;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #f2f2f2;
+        }
+        
+        h1 {
+            margin-top: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">About Us</a></li>
+            <li><a href="#">Contact Us</a></li>
+            <li><a href="{% url 'loginpage' %}">Log In</a></li>
+            <li><a href="{% url 'adminloginpage' %}">Admin LogIn</a></li>
+
+        </ul>
+    </div>
+    
+    <div class="container">
+        <h1>Welcome to My Website</h1>
+        <p>This is my note application.</p>
+    </div>
+</body>
+</html>
